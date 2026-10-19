@@ -20,4 +20,7 @@ jobs:
       - name: Link check
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --no-progress --exclude '\.\./\.\./issues' --accept 200,206,429 README.md CONTRIBUTING.md
+          # ../../issues is a GitHub blob-relative link to this repo's issues page.
+          # Lychee resolves it to a file:// URL before --exclude is applied
+          # (file:///issues locally, file:///home/runner/work/issues in Actions).
+          args: --no-progress --exclude '^file://.*/issues$' --accept 200,206,429 README.md CONTRIBUTING.md
