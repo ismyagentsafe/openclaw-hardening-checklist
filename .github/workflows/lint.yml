@@ -1,0 +1,23 @@
+name: lint
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - name: Markdown lint
+        run: npx --yes markdownlint-cli2@0.18.1
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Wording lint (never promises "safe")
+        run: |
+          python3 scripts/wording_lint.py
+          pip install pytest==8.3.3 && (cd scripts && python3 -m pytest -q test_wording_lint.py)
+      - name: Link check
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --exclude '\.\./\.\./issues' --accept 200,206,429 README.md CONTRIBUTING.md

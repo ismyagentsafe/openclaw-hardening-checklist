@@ -1,0 +1,12 @@
+{
+  // markdownlint rules for the checklist. Long lines are fine (one checklist item per line, docs links inline).
+  "config": {
+    "default": true,
+    "MD013": false,          // line length
+    "MD024": { "siblings_only": true },
+    "MD033": false,          // allow inline HTML if ever needed
+    "MD041": false           // LICENSE-style files without a top heading
+  },
+  "globs": ["**/*.md"],
+  "ignores": ["node_modules/**", "LICENSE", "LICENSE-CODE"]
+}
